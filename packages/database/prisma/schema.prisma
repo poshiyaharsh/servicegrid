@@ -506,3 +506,75 @@ model SyncOperation {
   @@index([tenantId])
   @@map("sync_operations")
 }
+
+model Technician {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  branchId     String?  @map("branch_id") @db.Uuid
+  displayName  String   @map("display_name") @db.VarChar(160)
+  phone        String   @db.VarChar(32)
+  homeLat      Decimal? @map("home_lat") @db.Decimal(10, 7)
+  homeLng      Decimal? @map("home_lng") @db.Decimal(10, 7)
+  workingHours Json     @map("working_hours")
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  skills       TechnicianSkill[]
+  leaves       TechnicianLeave[]
+  appointments Appointment[]
+
+  @@unique([tenantId, userId])
+  @@index([tenantId])
+  @@map("technicians")
+}
+
+model TechnicianSkill {
+  id               String @id @default(uuid()) @db.Uuid
+  tenantId         String @map("tenant_id") @db.Uuid
+  technicianId     String @map("technician_id") @db.Uuid
+  skillCode        String @map("skill_code") @db.VarChar(64)
+  proficiencyLevel Int    @default(1) @map("proficiency_level")
+
+  technician Technician @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, technicianId, skillCode])
+  @@index([tenantId])
+  @@map("technician_skills")
+}
+
+model TechnicianLeave {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  technicianId String   @map("technician_id") @db.Uuid
+  startAt      DateTime @map("start_at") @db.Timestamptz(6)
+  endAt        DateTime @map("end_at") @db.Timestamptz(6)
+  reason       String?  @db.VarChar(255)
+  status       String   @default("APPROVED") @db.VarChar(24)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  technician Technician @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([technicianId])
+  @@map("technician_availability")
+}
+
+model Appointment {
+  id                       String   @id @default(uuid()) @db.Uuid
+  tenantId                 String   @map("tenant_id") @db.Uuid
+  workOrderId              String   @map("work_order_id") @db.Uuid
+  technicianId             String   @map("technician_id") @db.Uuid
+  startAt                  DateTime @map("start_at") @db.Timestamptz(6)
+  endAt                    DateTime @map("end_at") @db.Timestamptz(6)
+  estimatedDurationMinutes Int      @default(60) @map("estimated_duration_minutes")
+  estimatedTravelMinutes   Int      @default(0) @map("estimated_travel_minutes")
+  status                   String   @default("SCHEDULED") @db.VarChar(24)
+  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  technician Technician @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([tenantId, technicianId, startAt])
+  @@map("appointments")
+}
