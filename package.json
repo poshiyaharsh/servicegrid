@@ -1,0 +1,25 @@
+{
+  "name": "servicegrid",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FieldSutra (ServiceGrid) — Commercial Field Service Operations Management SaaS",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev:api": "pnpm --filter @servicegrid/api dev",
+    "dev:web": "pnpm --filter @servicegrid/web dev",
+    "build": "pnpm -r --if-present build",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "lint": "pnpm -r --if-present lint",
+    "test": "pnpm -r --if-present test",
+    "db:generate": "pnpm --filter @servicegrid/database generate",
+    "db:migrate": "pnpm --filter @servicegrid/database migrate:dev",
+    "db:migrate:deploy": "pnpm --filter @servicegrid/database migrate:deploy"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
