@@ -7,6 +7,7 @@ import { DispatchModule } from './modules/dispatch/dispatch.module';
 import { FinanceModule } from './modules/finance/finance.module';
 import { HealthModule } from './modules/health/health.module';
 import { IdentityModule } from './modules/identity/identity.module';
+import { IntegrationsModule } from './modules/integrations/integrations.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { SyncModule } from './modules/sync/sync.module';
 import { WorkOrdersModule } from './modules/work-orders/work-orders.module';
@@ -22,6 +23,7 @@ import { WorkOrdersModule } from './modules/work-orders/work-orders.module';
     InventoryModule,
     FinanceModule,
     AmcModule,
+    IntegrationsModule,
   ],
   providers: [StructuredLoggerService, ErrorMonitorService],
 })
