@@ -80,6 +80,9 @@ importers:
 
   apps/mobile:
     dependencies:
+      '@servicegrid/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@servicegrid/offline-sync':
         specifier: workspace:*
         version: link:../../packages/offline-sync
