@@ -687,3 +687,174 @@ model PurchaseOrder {
   @@index([tenantId])
   @@map("purchase_orders")
 }
+
+model Estimate {
+  id             String    @id @default(uuid()) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  customerId     String    @map("customer_id") @db.Uuid
+  workOrderId    String?   @map("work_order_id") @db.Uuid
+  estimateNumber String    @map("estimate_number") @db.VarChar(40)
+  currency       String    @default("INR") @db.VarChar(8)
+  status         String    @default("DRAFT") @db.VarChar(24)
+  items          Json
+  subtotal       Decimal   @db.Decimal(14, 2)
+  discountTotal  Decimal   @default(0) @map("discount_total") @db.Decimal(14, 2)
+  taxTotal       Decimal   @db.Decimal(14, 2)
+  grandTotal     Decimal   @map("grand_total") @db.Decimal(14, 2)
+  approvedAt     DateTime? @map("approved_at") @db.Timestamptz(6)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, estimateNumber])
+  @@index([tenantId])
+  @@map("estimates")
+}
+
+model Invoice {
+  id             String    @id @default(uuid()) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  customerId     String    @map("customer_id") @db.Uuid
+  workOrderId    String?   @map("work_order_id") @db.Uuid
+  estimateId     String?   @map("estimate_id") @db.Uuid
+  invoiceNumber  String    @map("invoice_number") @db.VarChar(40)
+  currency       String    @default("INR") @db.VarChar(8)
+  fiscalYear     String    @map("fiscal_year") @db.VarChar(16)
+  businessGstin  String?   @map("business_gstin") @db.VarChar(20)
+  customerGstin  String?   @map("customer_gstin") @db.VarChar(20)
+  isInterState   Boolean   @default(false) @map("is_inter_state")
+  status         String    @default("DRAFT") @db.VarChar(24)
+  subtotal       Decimal   @db.Decimal(14, 2)
+  discountTotal  Decimal   @default(0) @map("discount_total") @db.Decimal(14, 2)
+  cgstTotal      Decimal   @default(0) @map("cgst_total") @db.Decimal(14, 2)
+  sgstTotal      Decimal   @default(0) @map("sgst_total") @db.Decimal(14, 2)
+  igstTotal      Decimal   @default(0) @map("igst_total") @db.Decimal(14, 2)
+  taxTotal       Decimal   @map("tax_total") @db.Decimal(14, 2)
+  grandTotal     Decimal   @map("grand_total") @db.Decimal(14, 2)
+  paidTotal      Decimal   @default(0) @map("paid_total") @db.Decimal(14, 2)
+  balanceDue     Decimal   @map("balance_due") @db.Decimal(14, 2)
+  finalizedAt    DateTime? @map("finalized_at") @db.Timestamptz(6)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  items       InvoiceItem[]
+  payments    Payment[]
+  creditNotes CreditNote[]
+  debitNotes  DebitNote[]
+
+  @@unique([tenantId, invoiceNumber])
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id             String  @id @default(uuid()) @db.Uuid
+  tenantId       String  @map("tenant_id") @db.Uuid
+  invoiceId      String  @map("invoice_id") @db.Uuid
+  description    String  @db.VarChar(255)
+  hsnSac         String? @map("hsn_sac") @db.VarChar(24)
+  quantity       Decimal @db.Decimal(10, 2)
+  unitPrice      Decimal @map("unit_price") @db.Decimal(14, 2)
+  discountAmount Decimal @default(0) @map("discount_amount") @db.Decimal(14, 2)
+  taxRatePercent Decimal @map("tax_rate_percent") @db.Decimal(5, 2)
+  taxAmount      Decimal @map("tax_amount") @db.Decimal(14, 2)
+  lineTotal      Decimal @map("line_total") @db.Decimal(14, 2)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([invoiceId])
+  @@map("invoice_items")
+}
+
+model Payment {
+  id             String    @id @default(uuid()) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  invoiceId      String    @map("invoice_id") @db.Uuid
+  amount         Decimal   @db.Decimal(14, 2)
+  method         String    @db.VarChar(32)
+  reference      String?   @db.VarChar(120)
+  status         String    @default("RECORDED") @db.VarChar(24)
+  refundedAmount Decimal   @default(0) @map("refunded_amount") @db.Decimal(14, 2)
+  paidAt         DateTime  @default(now()) @map("paid_at") @db.Timestamptz(6)
+  reconciledAt   DateTime? @map("reconciled_at") @db.Timestamptz(6)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([invoiceId])
+  @@map("payments")
+}
+
+model CreditNote {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  invoiceId  String   @map("invoice_id") @db.Uuid
+  noteNumber String   @map("note_number") @db.VarChar(40)
+  amount     Decimal  @db.Decimal(14, 2)
+  reason     String   @db.VarChar(255)
+  issuedAt   DateTime @default(now()) @map("issued_at") @db.Timestamptz(6)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, noteNumber])
+  @@index([tenantId])
+  @@map("credit_notes")
+}
+
+model DebitNote {
+  id         String   @id @default(uuid()) @db.Uuid
+  tenantId   String   @map("tenant_id") @db.Uuid
+  invoiceId  String   @map("invoice_id") @db.Uuid
+  noteNumber String   @map("note_number") @db.VarChar(40)
+  amount     Decimal  @db.Decimal(14, 2)
+  reason     String   @db.VarChar(255)
+  issuedAt   DateTime @default(now()) @map("issued_at") @db.Timestamptz(6)
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, noteNumber])
+  @@index([tenantId])
+  @@map("debit_notes")
+}
+
+model Expense {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  workOrderId  String?  @map("work_order_id") @db.Uuid
+  technicianId String?  @map("technician_id") @db.Uuid
+  category     String   @db.VarChar(64)
+  amount       Decimal  @db.Decimal(14, 2)
+  currency     String   @default("INR") @db.VarChar(8)
+  notes        String?  @db.Text
+  incurredAt   DateTime @default(now()) @map("incurred_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@map("expenses")
+}
+
+model TechnicianCommission {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  workOrderId  String   @map("work_order_id") @db.Uuid
+  technicianId String   @map("technician_id") @db.Uuid
+  amount       Decimal  @db.Decimal(14, 2)
+  status       String   @default("PENDING") @db.VarChar(24)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@map("technician_commissions")
+}
+
+model FinancialAuditLog {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  entityType  String   @map("entity_type") @db.VarChar(48)
+  entityId    String   @map("entity_id") @db.Uuid
+  action      String   @db.VarChar(64)
+  actorUserId String?  @map("actor_user_id") @db.Uuid
+  snapshot    Json
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@index([tenantId, entityType, entityId])
+  @@map("financial_audit_logs")
+}
