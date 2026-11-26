@@ -1,17 +1,39 @@
-export type SyncOperationStatus = 'PENDING' | 'IN_FLIGHT' | 'SYNCED' | 'CONFLICT' | 'FAILED';
+export type SyncOperationStatus =
+  | 'PENDING'
+  | 'UPLOADING'
+  | 'IN_FLIGHT'
+  | 'SYNCED'
+  | 'CONFLICT'
+  | 'FAILED';
+
+export type OutboxActionType =
+  | 'CREATE'
+  | 'UPDATE'
+  | 'STATUS_CHANGE'
+  | 'UPDATE_NOTES'
+  | 'CHECKLIST_UPDATE'
+  | 'PARTS_CONSUMED'
+  | 'ATTACHMENT_UPLOAD'
+  | 'SIGNATURE_CAPTURE'
+  | 'LOCATION_EVENT';
 
 export interface OutboxOperation<TPayload = Record<string, unknown>> {
   operationId: string;
   tenantId: string;
+  userId?: string;
+  deviceId?: string;
+  sequenceNumber?: number;
   entityType: string;
   entityId: string;
-  action: 'CREATE' | 'UPDATE' | 'STATUS_CHANGE' | 'ATTACHMENT_UPLOAD';
+  action: OutboxActionType;
   payload: TPayload;
   clientVersion: number;
   createdAtIso: string;
   attempts: number;
+  nextRetryAtIso?: string;
   status: SyncOperationStatus;
   lastError?: string;
+  serverVersion?: number;
 }
 
 export function computeBackoffMs(attempts: number, baseMs = 1500, maxMs = 60_000): number {

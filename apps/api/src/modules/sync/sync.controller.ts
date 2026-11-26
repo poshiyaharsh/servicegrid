@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   CurrentUser,
@@ -7,19 +7,22 @@ import {
 } from '../../common/security/auth.decorators';
 import { JwtAuthGuard } from '../../common/security/jwt-auth.guard';
 import { PermissionsGuard } from '../../common/security/permissions.guard';
-import { SyncService, type IncomingSyncOperation } from './sync.service';
+import { SyncService, type IncomingAttachmentUpload, type IncomingSyncOperation } from './sync.service';
 
 @ApiTags('Mobile Sync')
 @Controller('sync')
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth()
 export class SyncController {
-  constructor(private readonly syncService: SyncService) {}
+  constructor(@Inject(SyncService) private readonly syncService: SyncService) {}
 
   @Get('assigned-jobs')
   @RequirePermissions('work_orders:read')
   async getAssignedJobs(@CurrentUser() user: AuthenticatedUser) {
-    return { success: true, data: await this.syncService.getAssignedJobs(user.tenantId) };
+    return {
+      success: true,
+      data: await this.syncService.getAssignedJobs(user.tenantId, user.userId, user.roles),
+    };
   }
 
   @Post('operations')
@@ -30,7 +33,24 @@ export class SyncController {
   ) {
     return {
       success: true,
-      data: await this.syncService.processBatch(user.tenantId, user.userId, body.operations),
+      data: await this.syncService.processBatch(
+        user.tenantId,
+        user.userId,
+        body.operations,
+        user.roles,
+      ),
+    };
+  }
+
+  @Post('attachments')
+  @RequirePermissions('work_orders:execute')
+  async uploadAttachment(
+    @CurrentUser() user: AuthenticatedUser,
+    @Body() body: IncomingAttachmentUpload,
+  ) {
+    return {
+      success: true,
+      data: await this.syncService.registerAttachment(user.tenantId, user.userId, body),
     };
   }
 }
