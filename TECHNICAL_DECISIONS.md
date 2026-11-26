@@ -33,3 +33,9 @@ This document records key architectural, security, and product engineering decis
 - **Date:** 2026-11-26
 - **Decision:** Use `pnpm` workspaces for the monorepo (`apps/*`, `packages/*`, `services/*`).
 - **Rationale:** Strict dependency isolation, fast installs, and clean shared-package linking across web, mobile, API, and workers.
+
+
+## TD-007: Product Brand Selection — FieldSutra
+- **Date:** 2026-11-26
+- **Decision:** Adopt **FieldSutra** as the commercial product brand while keeping `servicegrid` / `@servicegrid/*` as the internal monorepo and package namespace.
+- **Rationale:** Evaluated 22 candidates across 9 criteria (`docs/brand/BRAND_NAME_RESEARCH.md`). FieldSutra scored highest (44/45), carries strong India + global resonance, and had no active competing FSM SaaS found in preliminary web screening. Formal domain/trademark registration checks remain required prior to public launch.
