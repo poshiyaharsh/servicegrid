@@ -1,8 +1,8 @@
 # Development Status — ServiceGrid
 
 **Last Updated:** 2026-11-26  
-**Current Phase:** Phase 07 — Technician Mobile Application (Completed)  
-**Next Phase:** Phase 08 — Scheduling and Dispatch (Awaiting approval to proceed)
+**Current Phase:** Phase 08 — Scheduling and Dispatch (Completed)  
+**Next Phase:** Phase 09 — Inventory and Asset Management (Awaiting approval to proceed)
 
 ---
 
@@ -29,7 +29,7 @@
 | **05** | CRM and Customer Management | **Completed** | Business/individual customers, contacts, addresses, leads, communications, timeline, assets, CSV import/export, RLS |
 | **06** | Service Requests and Work Orders | **Completed** | Categories/SLA, manual & portal intake, conversion, 9-status state machine, multi-tech/visits, checklists, photos, reports, RLS |
 | **07** | Technician Mobile Application | **Completed** | 15 Android-first screens, SQLite DDL & offline outbox engine, Android OS handlers, idempotent Sync API, offline/conflict/restart tests |
-| **08** | Scheduling and Dispatch | Pending | Calendar, dispatch board, scoring, route optimization |
+| **08** | Scheduling and Dispatch | **Completed** | Daily/weekly/monthly board, skills/leave/hours availability, 6-factor scoring, manual override, emergency reassign, route optimization |
 | **09** | Inventory and Asset Management | Pending | Warehouses, vehicle stock, auditable ledger, assets |
 | **10** | Billing and Financial Operations | Pending | Estimates, GST invoices, UPI, decimal math, audit history |
 | **11** | AMC and Maintenance | Pending | AMC contracts, preventive schedules, idempotent job gen |
