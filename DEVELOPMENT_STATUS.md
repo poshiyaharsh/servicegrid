@@ -1,8 +1,8 @@
 # Development Status — ServiceGrid
 
 **Last Updated:** 2026-11-26  
-**Current Phase:** Phase 05 — CRM and Customer Management (Completed)  
-**Next Phase:** Phase 06 — Service Requests and Work Orders (Awaiting approval to proceed)
+**Current Phase:** Phase 06 — Service Requests and Work Orders (Completed)  
+**Next Phase:** Phase 07 — Technician Mobile Application (Awaiting approval to proceed)
 
 ---
 
@@ -27,7 +27,7 @@
 | **03** | Architecture and Infrastructure | **Completed** | `pnpm` monorepo, Docker Compose, PostgreSQL + Prisma baseline, Redis, NestJS API + OpenAPI, 4 BullMQ workers, CI |
 | **04** | Authentication and Multi-Tenancy | **Completed** | Auth, sessions, invitations, branches, users, 9-role RBAC, PostgreSQL RLS (`FORCE` + `servicegrid_app`), live DB + cross-tenant tests (5/5 pass) |
 | **05** | CRM and Customer Management | **Completed** | Business/individual customers, contacts, addresses, leads, communications, timeline, assets, CSV import/export, RLS |
-| **06** | Service Requests and Work Orders | Pending | Requests, work orders, checklists, photos, SLA, state machine |
+| **06** | Service Requests and Work Orders | **Completed** | Categories/SLA, manual & portal intake, conversion, 9-status state machine, multi-tech/visits, checklists, photos, reports, RLS |
 | **07** | Technician Mobile Application | Pending | React Native Android-first app, SQLite offline-first sync |
 | **08** | Scheduling and Dispatch | Pending | Calendar, dispatch board, scoring, route optimization |
 | **09** | Inventory and Asset Management | Pending | Warehouses, vehicle stock, auditable ledger, assets |
