@@ -4,12 +4,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { loadConfig } from '@servicegrid/config';
 import { AppModule } from './app.module';
 import { StructuredLoggerService } from './common/logger/structured-logger.service';
+import { securityHeadersMiddleware } from './common/security/security-headers.middleware';
 
 async function bootstrap() {
   const config = loadConfig();
   const logger = new StructuredLoggerService();
 
   const app = await NestFactory.create(AppModule, { logger });
+  app.use(securityHeadersMiddleware);
   app.setGlobalPrefix('api/v1');
   app.enableCors({ origin: config.APP_URL, credentials: true });
 
