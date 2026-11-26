@@ -488,3 +488,21 @@ model JobReport {
   @@index([workOrderId])
   @@map("job_reports")
 }
+
+model SyncOperation {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  operationId   String   @map("operation_id") @db.VarChar(80)
+  userId        String   @map("user_id") @db.Uuid
+  entityType    String   @map("entity_type") @db.VarChar(48)
+  entityId      String   @map("entity_id") @db.Uuid
+  action        String   @db.VarChar(48)
+  clientVersion Int      @map("client_version")
+  status        String   @db.VarChar(24)
+  resultPayload Json?    @map("result_payload")
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, operationId])
+  @@index([tenantId])
+  @@map("sync_operations")
+}
