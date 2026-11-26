@@ -12,6 +12,7 @@ import { IntegrationsModule } from './modules/integrations/integrations.module';
 import { InventoryModule } from './modules/inventory/inventory.module';
 import { SyncModule } from './modules/sync/sync.module';
 import { WorkOrdersModule } from './modules/work-orders/work-orders.module';
+import { WorkflowsModule } from './modules/workflows/workflows.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { WorkOrdersModule } from './modules/work-orders/work-orders.module';
     AmcModule,
     IntegrationsModule,
     AnalyticsModule,
+    WorkflowsModule,
   ],
   providers: [StructuredLoggerService, ErrorMonitorService],
 })
