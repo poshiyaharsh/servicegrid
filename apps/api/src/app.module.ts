@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ErrorMonitorService } from './common/monitoring/error-monitor.service';
 import { StructuredLoggerService } from './common/logger/structured-logger.service';
 import { AmcModule } from './modules/amc/amc.module';
+import { AnalyticsModule } from './modules/analytics/analytics.module';
 import { CrmModule } from './modules/crm/crm.module';
 import { DispatchModule } from './modules/dispatch/dispatch.module';
 import { FinanceModule } from './modules/finance/finance.module';
@@ -24,6 +25,7 @@ import { WorkOrdersModule } from './modules/work-orders/work-orders.module';
     FinanceModule,
     AmcModule,
     IntegrationsModule,
+    AnalyticsModule,
   ],
   providers: [StructuredLoggerService, ErrorMonitorService],
 })
