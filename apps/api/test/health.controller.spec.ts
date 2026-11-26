@@ -11,9 +11,9 @@ describe('HealthController', () => {
     assert.equal(res.data.service, 'fieldsutra-api');
   });
 
-  it('returns readiness status ready', () => {
+  it('returns readiness status ready', async () => {
     const controller = new HealthController();
-    const res = controller.getReadiness();
+    const res = await controller.getReadiness();
     assert.equal(res.success, true);
     assert.equal(res.data.status, 'ready');
   });

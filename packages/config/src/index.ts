@@ -15,6 +15,30 @@ const envSchema = z.object({
   JWT_REFRESH_TTL: z.string().default('7d'),
   SENTRY_DSN: z.string().optional().default(''),
   OTEL_EXPORTER_OTLP_ENDPOINT: z.string().optional().default(''),
+}).superRefine((data, ctx) => {
+  if (data.NODE_ENV === 'production') {
+    if (data.JWT_ACCESS_SECRET.startsWith('dev_only_') || data.JWT_ACCESS_SECRET.length < 32) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['JWT_ACCESS_SECRET'],
+        message: 'Production requires a strong JWT_ACCESS_SECRET (at least 32 characters)',
+      });
+    }
+    if (data.JWT_REFRESH_SECRET.startsWith('dev_only_') || data.JWT_REFRESH_SECRET.length < 32) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['JWT_REFRESH_SECRET'],
+        message: 'Production requires a strong JWT_REFRESH_SECRET (at least 32 characters)',
+      });
+    }
+    if (data.DATABASE_URL.includes('change_me_local_dev_password')) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['DATABASE_URL'],
+        message: 'Production cannot use default local dev DATABASE_URL credentials',
+      });
+    }
+  }
 });
 
 export type AppConfig = z.infer<typeof envSchema>;
