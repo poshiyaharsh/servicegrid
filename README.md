@@ -53,8 +53,14 @@ servicegrid/
 4. **Verify workspace:**
    ```bash
    pnpm typecheck
+   pnpm lint
    pnpm build
    pnpm test
+   ```
+5. **Run local dev servers:**
+   ```bash
+   pnpm dev:api   # http://localhost:4000/api/v1 (Swagger at /api/docs)
+   pnpm dev:web   # http://localhost:3000 (uses NEXT_PUBLIC_API_URL)
    ```
 
 ## Commit Standards

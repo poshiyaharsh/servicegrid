@@ -1,20 +1,22 @@
 {
-  "name": "@servicegrid/mobile",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "tsx --test test/**/*.spec.ts"
-  },
-  "dependencies": {
-    "@servicegrid/offline-sync": "workspace:*",
-    "@servicegrid/types": "workspace:*",
-    "react": "^18.3.1",
-    "react-native": "^0.76.5"
-  },
-  "devDependencies": {
-    "@types/react": "^18.3.12",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
-  }
+    "name":  "@servicegrid/mobile",
+    "version":  "0.1.0",
+    "private":  true,
+    "scripts":  {
+                    "typecheck":  "tsc --noEmit",
+                    "test":  "tsx --test test/**/*.spec.ts",
+                    "lint":  "eslint src --config ../../eslint.config.mjs"
+                },
+    "dependencies":  {
+                         "@servicegrid/offline-sync":  "workspace:*",
+                         "@servicegrid/types":  "workspace:*",
+                         "react":  "^18.3.1",
+                         "react-native":  "^0.76.5"
+                     },
+    "devDependencies":  {
+                            "@types/react":  "^18.3.12",
+                            "tsx":  "^4.19.2",
+                            "typescript":  "^5.7.2"
+                        }
 }
+

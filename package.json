@@ -20,6 +20,19 @@
     "db:migrate:deploy": "pnpm --filter @servicegrid/database migrate:deploy"
   },
   "devDependencies": {
-    "typescript": "^5.7.2"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.74.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "multer": ">=2.5.0",
+      "body-parser": ">=1.20.9",
+      "lodash": ">=4.18.0",
+      "js-yaml": ">=4.3.2",
+      "postcss": ">=8.5.18",
+      "image-size": ">=2.0.3"
+    }
   }
 }
