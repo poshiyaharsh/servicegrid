@@ -902,3 +902,73 @@ model ScheduledVisit {
   @@index([contractId])
   @@map("scheduled_visits")
 }
+
+model IntegrationAccount {
+  id            String    @id @default(uuid()) @db.Uuid
+  tenantId      String    @map("tenant_id") @db.Uuid
+  providerType  String    @map("provider_type") @db.VarChar(32)
+  providerName  String    @map("provider_name") @db.VarChar(64)
+  mode          String    @default("SANDBOX") @db.VarChar(16)
+  config        Json
+  isEnabled     Boolean   @default(true) @map("is_enabled")
+  healthStatus  String    @default("HEALTHY") @map("health_status") @db.VarChar(24)
+  lastCheckedAt DateTime? @map("last_checked_at") @db.Timestamptz(6)
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, providerType])
+  @@index([tenantId])
+  @@map("integration_accounts")
+}
+
+model MessageTemplate {
+  id           String   @id @default(uuid()) @db.Uuid
+  tenantId     String   @map("tenant_id") @db.Uuid
+  channel      String   @db.VarChar(24)
+  code         String   @db.VarChar(64)
+  name         String   @db.VarChar(160)
+  bodyTemplate String   @map("body_template") @db.Text
+  variables    String[] @default([])
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, channel, code])
+  @@index([tenantId])
+  @@map("message_templates")
+}
+
+model NotificationLog {
+  id                String   @id @default(uuid()) @db.Uuid
+  tenantId          String   @map("tenant_id") @db.Uuid
+  channel           String   @db.VarChar(24)
+  recipient         String   @db.VarChar(255)
+  templateCode      String?  @map("template_code") @db.VarChar(64)
+  renderedBody      String   @map("rendered_body") @db.Text
+  status            String   @default("QUEUED") @db.VarChar(24)
+  providerMessageId String?  @map("provider_message_id") @db.VarChar(120)
+  failureReason     String?  @map("failure_reason") @db.Text
+  attempts          Int      @default(0)
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt         DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("notifications")
+}
+
+model WebhookEvent {
+  id             String    @id @default(uuid()) @db.Uuid
+  tenantId       String    @map("tenant_id") @db.Uuid
+  provider       String    @db.VarChar(48)
+  eventType      String    @map("event_type") @db.VarChar(80)
+  signatureValid Boolean   @map("signature_valid")
+  payload        Json
+  status         String    @default("RECEIVED") @db.VarChar(24)
+  attempts       Int       @default(0)
+  lastError      String?   @map("last_error") @db.Text
+  receivedAt     DateTime  @default(now()) @map("received_at") @db.Timestamptz(6)
+  processedAt    DateTime? @map("processed_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@index([tenantId, status])
+  @@map("webhook_events")
+}
