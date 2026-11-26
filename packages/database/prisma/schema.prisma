@@ -578,3 +578,112 @@ model Appointment {
   @@index([tenantId, technicianId, startAt])
   @@map("appointments")
 }
+
+model Product {
+  id               String   @id @default(uuid()) @db.Uuid
+  tenantId         String   @map("tenant_id") @db.Uuid
+  sku              String   @db.VarChar(64)
+  barcode          String?  @db.VarChar(80)
+  qrCode           String?  @map("qr_code") @db.VarChar(120)
+  name             String   @db.VarChar(160)
+  category         String   @db.VarChar(80)
+  unitPrice        Decimal  @map("unit_price") @db.Decimal(12, 2)
+  reorderThreshold Int      @default(5) @map("reorder_threshold")
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, sku])
+  @@index([tenantId])
+  @@map("products")
+}
+
+model Warehouse {
+  id                   String   @id @default(uuid()) @db.Uuid
+  tenantId             String   @map("tenant_id") @db.Uuid
+  branchId             String?  @map("branch_id") @db.Uuid
+  name                 String   @db.VarChar(160)
+  code                 String   @db.VarChar(32)
+  warehouseType        String   @default("MAIN") @map("warehouse_type") @db.VarChar(24)
+  assignedTechnicianId String?  @map("assigned_technician_id") @db.Uuid
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, code])
+  @@index([tenantId])
+  @@map("warehouses")
+}
+
+model StockBalance {
+  id          String   @id @default(uuid()) @db.Uuid
+  tenantId    String   @map("tenant_id") @db.Uuid
+  warehouseId String   @map("warehouse_id") @db.Uuid
+  productId   String   @map("product_id") @db.Uuid
+  quantity    Int      @default(0)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, warehouseId, productId])
+  @@index([tenantId])
+  @@map("stock_balances")
+}
+
+model StockMovement {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  warehouseId   String   @map("warehouse_id") @db.Uuid
+  productId     String   @map("product_id") @db.Uuid
+  movementType  String   @map("movement_type") @db.VarChar(32)
+  quantityDelta Int      @map("quantity_delta")
+  referenceType String?  @map("reference_type") @db.VarChar(48)
+  referenceId   String?  @map("reference_id") @db.Uuid
+  reason        String?  @db.VarChar(255)
+  actorUserId   String?  @map("actor_user_id") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@index([tenantId, productId])
+  @@map("stock_movements")
+}
+
+model StockTransfer {
+  id              String   @id @default(uuid()) @db.Uuid
+  tenantId        String   @map("tenant_id") @db.Uuid
+  fromWarehouseId String   @map("from_warehouse_id") @db.Uuid
+  toWarehouseId   String   @map("to_warehouse_id") @db.Uuid
+  productId       String   @map("product_id") @db.Uuid
+  quantity        Int
+  status          String   @default("COMPLETED") @db.VarChar(24)
+  createdByUserId String?  @map("created_by_user_id") @db.Uuid
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@map("stock_transfers")
+}
+
+model Supplier {
+  id        String   @id @default(uuid()) @db.Uuid
+  tenantId  String   @map("tenant_id") @db.Uuid
+  name      String   @db.VarChar(160)
+  phone     String   @db.VarChar(32)
+  email     String?  @db.VarChar(255)
+  gstin     String?  @db.VarChar(20)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([tenantId])
+  @@map("suppliers")
+}
+
+model PurchaseOrder {
+  id          String    @id @default(uuid()) @db.Uuid
+  tenantId    String    @map("tenant_id") @db.Uuid
+  supplierId  String    @map("supplier_id") @db.Uuid
+  warehouseId String    @map("warehouse_id") @db.Uuid
+  poNumber    String    @map("po_number") @db.VarChar(40)
+  status      String    @default("ORDERED") @db.VarChar(24)
+  items       Json
+  totalAmount Decimal   @map("total_amount") @db.Decimal(12, 2)
+  receivedAt  DateTime? @map("received_at") @db.Timestamptz(6)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@unique([tenantId, poNumber])
+  @@index([tenantId])
+  @@map("purchase_orders")
+}
