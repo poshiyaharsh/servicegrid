@@ -11,7 +11,7 @@
 - **Repository:** `servicegrid` (`main` branch)
 - **Node.js:** `v24.13.0`
 - **pnpm:** `9.15.0` (installed globally)
-- **Docker:** `29.9.2` (CLI available; Docker Desktop daemon not running locally)
+- **Docker:** `29.9.2` (running; PostgreSQL 16 & Redis 7 containers active)
 - **Git:** `2.53.0.windows.2`
 - **Commit Standard:** Conventional Commits 1.0.0 (`CONTRIBUTING.md`)
 - **Security/Privacy:** `.gitignore` excludes `.env*` (except `.env.example`), secrets, keys, and internal prompt files (`MASTER_PROMPT.md`, `*PROMPT*.md`).
@@ -25,7 +25,7 @@
 | **01** | Research and Product Discovery | **Completed** | `COMPETITOR_ANALYSIS.md`, `CUSTOMER_PERSONAS.md`, `PRODUCT_REQUIREMENTS.md`, `PRODUCT_POSITIONING.md`, `MVP_SCOPE.md` |
 | **02** | Brand Identity and Design System | **Completed** | Brand naming (`FieldSutra`), 7 SVG logos, design tokens, UI primitives, 5 loader variants |
 | **03** | Architecture and Infrastructure | **Completed** | `pnpm` monorepo, Docker Compose, PostgreSQL + Prisma baseline, Redis, NestJS API + OpenAPI, 4 BullMQ workers, CI |
-| **04** | Authentication and Multi-Tenancy | **Completed** | Auth, sessions, invitations, branches, users, 9-role RBAC, PostgreSQL RLS, cross-tenant tests |
+| **04** | Authentication and Multi-Tenancy | **Completed** | Auth, sessions, invitations, branches, users, 9-role RBAC, PostgreSQL RLS (`FORCE` + `servicegrid_app`), live DB + cross-tenant tests (5/5 pass) |
 | **05** | CRM and Customer Management | Pending | Customers, contacts, addresses, leads, assets, timeline |
 | **06** | Service Requests and Work Orders | Pending | Requests, work orders, checklists, photos, SLA, state machine |
 | **07** | Technician Mobile Application | Pending | React Native Android-first app, SQLite offline-first sync |
