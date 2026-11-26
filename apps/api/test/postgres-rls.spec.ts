@@ -57,5 +57,16 @@ describe('Live PostgreSQL Row-Level Security (RLS)', { skip: !runLiveDbTests }, 
         }),
       /row-level security policy/i,
     );
+
+    // Phase 05: Verify CRM customers table is also isolated by PostgreSQL RLS
+    await prisma.customer.create({
+      data: { tenantId: tenantB.id, displayName: 'Tenant B Customer', primaryPhone: '+919999999999' },
+    });
+    const visibleCustomersToA = await prisma.$transaction(async (tx) => {
+      await tx.$executeRawUnsafe(`SET LOCAL ROLE servicegrid_app`);
+      await tx.$executeRawUnsafe(`SELECT set_config('app.current_tenant_id', $1, true)`, tenantA.id);
+      return tx.customer.findMany();
+    });
+    assert.equal(visibleCustomersToA.length, 0);
   });
 });

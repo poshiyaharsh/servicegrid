@@ -1,8 +1,8 @@
 # Development Status — ServiceGrid
 
 **Last Updated:** 2026-11-26  
-**Current Phase:** Phase 04 — Authentication and Multi-Tenancy (Completed)  
-**Next Phase:** Phase 05 — CRM and Customer Management (Awaiting approval to proceed)
+**Current Phase:** Phase 05 — CRM and Customer Management (Completed)  
+**Next Phase:** Phase 06 — Service Requests and Work Orders (Awaiting approval to proceed)
 
 ---
 
@@ -26,7 +26,7 @@
 | **02** | Brand Identity and Design System | **Completed** | Brand naming (`FieldSutra`), 7 SVG logos, design tokens, UI primitives, 5 loader variants |
 | **03** | Architecture and Infrastructure | **Completed** | `pnpm` monorepo, Docker Compose, PostgreSQL + Prisma baseline, Redis, NestJS API + OpenAPI, 4 BullMQ workers, CI |
 | **04** | Authentication and Multi-Tenancy | **Completed** | Auth, sessions, invitations, branches, users, 9-role RBAC, PostgreSQL RLS (`FORCE` + `servicegrid_app`), live DB + cross-tenant tests (5/5 pass) |
-| **05** | CRM and Customer Management | Pending | Customers, contacts, addresses, leads, assets, timeline |
+| **05** | CRM and Customer Management | **Completed** | Business/individual customers, contacts, addresses, leads, communications, timeline, assets, CSV import/export, RLS |
 | **06** | Service Requests and Work Orders | Pending | Requests, work orders, checklists, photos, SLA, state machine |
 | **07** | Technician Mobile Application | Pending | React Native Android-first app, SQLite offline-first sync |
 | **08** | Scheduling and Dispatch | Pending | Calendar, dispatch board, scoring, route optimization |
