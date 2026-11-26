@@ -1,8 +1,8 @@
 # Development Status — ServiceGrid
 
 **Last Updated:** 2026-11-26  
-**Current Phase:** Phase 10 — Billing and Financial Operations (Completed)  
-**Next Phase:** Phase 11 — AMC and Maintenance (Awaiting approval to proceed)
+**Current Phase:** Phase 11 — AMC and Maintenance (Completed)  
+**Next Phase:** Phase 12 — Communication and Integrations (Awaiting approval to proceed)
 
 ---
 
@@ -32,7 +32,7 @@
 | **08** | Scheduling and Dispatch | **Completed** | Daily/weekly/monthly board, skills/leave/hours availability, 6-factor scoring, manual override, emergency reassign, route optimization |
 | **09** | Inventory and Asset Management | **Completed** | Products/SKU/barcode/QR, warehouses & vehicle stock, auditable movement ledger, transfers, POs, suppliers, low-stock alerts, RLS |
 | **10** | Billing and Financial Operations | **Completed** | Estimates, GST/multi-currency invoices, BigInt decimal math, immutable finalized invoices, credit/debit notes, UPI sandbox, audit log, RLS |
-| **11** | AMC and Maintenance | Pending | AMC contracts, preventive schedules, idempotent job gen |
+| **11** | AMC and Maintenance | **Completed** | AMC contracts, equipment coverage, preventive schedules, idempotent visit generation, renewals, cancellation, profitability, RLS |
 | **12** | Communication and Integrations | Pending | WhatsApp Business, email, SMS, payment, maps, storage |
 | **13** | Analytics and AI Intelligence | Pending | KPI dashboards, complaint classification, summaries |
 | **14** | Customer Portal and Workflow Automation | Pending | Self-service portal, loop-safe workflow builder |
