@@ -1,6 +1,7 @@
 import React from 'react';
 import '@servicegrid/ui/styles/tokens.css';
 import '@servicegrid/ui/styles/animations.css';
+import { AuthProvider } from '../lib/auth-context';
 
 export const metadata = {
   title: {
@@ -17,7 +18,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#F8FAFC] text-[#0F172A] antialiased">{children}</body>
+      <body className="min-h-screen bg-[#F8FAFC] text-[#0F172A] antialiased">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
