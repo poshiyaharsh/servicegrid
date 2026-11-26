@@ -1,0 +1,47 @@
+:root {
+  --fs-bg-canvas: #f8fafc;
+  --fs-bg-surface: #ffffff;
+  --fs-bg-subtle: #f1f5f9;
+  --fs-border: #e2e8f0;
+  --fs-border-strong: #cbd5e1;
+
+  --fs-text-primary: #0f172a;
+  --fs-text-secondary: #475569;
+  --fs-text-muted: #64748b;
+
+  --fs-brand-navy: #0f172a;
+  --fs-brand-teal: #0d9488;
+  --fs-brand-teal-hover: #0f766e;
+  --fs-brand-teal-soft: #f0fdfa;
+
+  --fs-status-success: #059669;
+  --fs-status-warning: #d97706;
+  --fs-status-danger: #e11d48;
+  --fs-status-info: #0284c7;
+
+  --fs-sidebar-bg: #0f172a;
+  --fs-sidebar-text: #cbd5e1;
+  --fs-sidebar-active-bg: #1e293b;
+  --fs-sidebar-accent: #14b8a6;
+
+  --fs-radius-sm: 4px;
+  --fs-radius-md: 6px;
+  --fs-radius-lg: 8px;
+  --fs-radius-xl: 12px;
+}
+
+[data-theme='dark'] {
+  --fs-bg-canvas: #0b1120;
+  --fs-bg-surface: #0f172a;
+  --fs-bg-subtle: #1e293b;
+  --fs-border: #1e293b;
+  --fs-border-strong: #334155;
+
+  --fs-text-primary: #f8fafc;
+  --fs-text-secondary: #cbd5e1;
+  --fs-text-muted: #94a3b8;
+
+  --fs-brand-teal: #14b8a6;
+  --fs-brand-teal-hover: #2dd4bf;
+  --fs-brand-teal-soft: rgba(20, 184, 166, 0.12);
+}
