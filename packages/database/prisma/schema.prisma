@@ -858,3 +858,47 @@ model FinancialAuditLog {
   @@index([tenantId, entityType, entityId])
   @@map("financial_audit_logs")
 }
+
+model AmcContract {
+  id                 String   @id @default(uuid()) @db.Uuid
+  tenantId           String   @map("tenant_id") @db.Uuid
+  customerId         String   @map("customer_id") @db.Uuid
+  contractNumber     String   @map("contract_number") @db.VarChar(40)
+  title              String   @db.VarChar(200)
+  price              Decimal  @db.Decimal(14, 2)
+  currency           String   @default("INR") @db.VarChar(8)
+  startDate          DateTime @map("start_date") @db.Timestamptz(6)
+  endDate            DateTime @map("end_date") @db.Timestamptz(6)
+  visitFrequency     String   @map("visit_frequency") @db.VarChar(24)
+  coverageDetails    Json     @map("coverage_details")
+  coveredAssetIds    String[] @default([]) @map("covered_asset_ids")
+  status             String   @default("ACTIVE") @db.VarChar(24)
+  cancellationReason String?  @map("cancellation_reason") @db.Text
+  renewedFromId      String?  @map("renewed_from_id") @db.Uuid
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  visits ScheduledVisit[]
+
+  @@unique([tenantId, contractNumber])
+  @@index([tenantId])
+  @@index([tenantId, status, endDate])
+  @@map("amc_contracts")
+}
+
+model ScheduledVisit {
+  id            String   @id @default(uuid()) @db.Uuid
+  tenantId      String   @map("tenant_id") @db.Uuid
+  contractId    String   @map("contract_id") @db.Uuid
+  visitKey      String   @map("visit_key") @db.VarChar(48)
+  scheduledDate DateTime @map("scheduled_date") @db.Timestamptz(6)
+  workOrderId   String?  @map("work_order_id") @db.Uuid
+  status        String   @default("PENDING") @db.VarChar(24)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  contract AmcContract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, contractId, visitKey])
+  @@index([tenantId])
+  @@index([contractId])
+  @@map("scheduled_visits")
+}
