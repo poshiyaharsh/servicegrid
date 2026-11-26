@@ -5,11 +5,20 @@ import { CrmModule } from './modules/crm/crm.module';
 import { DispatchModule } from './modules/dispatch/dispatch.module';
 import { HealthModule } from './modules/health/health.module';
 import { IdentityModule } from './modules/identity/identity.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
 import { SyncModule } from './modules/sync/sync.module';
 import { WorkOrdersModule } from './modules/work-orders/work-orders.module';
 
 @Module({
-  imports: [HealthModule, IdentityModule, CrmModule, WorkOrdersModule, SyncModule, DispatchModule],
+  imports: [
+    HealthModule,
+    IdentityModule,
+    CrmModule,
+    WorkOrdersModule,
+    SyncModule,
+    DispatchModule,
+    InventoryModule,
+  ],
   providers: [StructuredLoggerService, ErrorMonitorService],
 })
 export class AppModule {}

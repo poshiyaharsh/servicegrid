@@ -1,8 +1,8 @@
 # Development Status — ServiceGrid
 
 **Last Updated:** 2026-11-26  
-**Current Phase:** Phase 08 — Scheduling and Dispatch (Completed)  
-**Next Phase:** Phase 09 — Inventory and Asset Management (Awaiting approval to proceed)
+**Current Phase:** Phase 09 — Inventory and Asset Management (Completed)  
+**Next Phase:** Phase 10 — Billing and Financial Operations (Awaiting approval to proceed)
 
 ---
 
@@ -30,7 +30,7 @@
 | **06** | Service Requests and Work Orders | **Completed** | Categories/SLA, manual & portal intake, conversion, 9-status state machine, multi-tech/visits, checklists, photos, reports, RLS |
 | **07** | Technician Mobile Application | **Completed** | 15 Android-first screens, SQLite DDL & offline outbox engine, Android OS handlers, idempotent Sync API, offline/conflict/restart tests |
 | **08** | Scheduling and Dispatch | **Completed** | Daily/weekly/monthly board, skills/leave/hours availability, 6-factor scoring, manual override, emergency reassign, route optimization |
-| **09** | Inventory and Asset Management | Pending | Warehouses, vehicle stock, auditable ledger, assets |
+| **09** | Inventory and Asset Management | **Completed** | Products/SKU/barcode/QR, warehouses & vehicle stock, auditable movement ledger, transfers, POs, suppliers, low-stock alerts, RLS |
 | **10** | Billing and Financial Operations | Pending | Estimates, GST invoices, UPI, decimal math, audit history |
 | **11** | AMC and Maintenance | Pending | AMC contracts, preventive schedules, idempotent job gen |
 | **12** | Communication and Integrations | Pending | WhatsApp Business, email, SMS, payment, maps, storage |
