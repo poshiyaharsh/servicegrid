@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" width="220" height="48" role="img" aria-label="FieldSutra Monochrome">
+  <g transform="translate(4, 4)">
+    <rect x="0" y="0" width="18" height="18" rx="4.5" fill="#0F172A"/>
+    <rect x="22" y="0" width="18" height="18" rx="9" fill="#0F172A"/>
+    <rect x="0" y="22" width="18" height="18" rx="4.5" fill="#0F172A"/>
+    <rect x="22" y="22" width="18" height="18" rx="4.5" fill="#0F172A" fill-opacity="0.65"/>
+    <path d="M18 9h4M9 18v4M31 18v4M18 31h4" stroke="#0F172A" stroke-width="2.2" stroke-linecap="round"/>
+  </g>
+  <text x="56" y="31" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" letter-spacing="-0.03em" fill="#0F172A">FieldSutra</text>
+</svg>
