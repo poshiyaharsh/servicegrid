@@ -1,0 +1,14 @@
+{
+  "name": "@servicegrid/scheduler-worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "dependencies": {
+    "@servicegrid/config": "workspace:*",
+    "bullmq": "^5.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.7.2"
+  }
+}
