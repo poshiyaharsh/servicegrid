@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AmcModule } from '../amc/amc.module';
+import { CrmModule } from '../crm/crm.module';
 import { FinanceModule } from '../finance/finance.module';
 import { IdentityModule } from '../identity/identity.module';
 import { InventoryModule } from '../inventory/inventory.module';
@@ -9,7 +10,7 @@ import { AnalyticsController } from './analytics.controller';
 import { AnalyticsService } from './analytics.service';
 
 @Module({
-  imports: [IdentityModule, WorkOrdersModule, FinanceModule, InventoryModule, AmcModule],
+  imports: [IdentityModule, CrmModule, WorkOrdersModule, FinanceModule, InventoryModule, AmcModule],
   controllers: [AnalyticsController],
   providers: [AnalyticsService, AiIntelligenceService],
   exports: [AnalyticsService, AiIntelligenceService],

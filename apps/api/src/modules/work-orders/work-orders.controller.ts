@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import type { WorkOrderStatus } from '@servicegrid/types';
 import {
@@ -16,12 +16,20 @@ import { WorkOrdersService } from './work-orders.service';
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth()
 export class WorkOrdersController {
-  constructor(private readonly workOrdersService: WorkOrdersService) {}
+  constructor(@Inject(WorkOrdersService) private readonly workOrdersService: WorkOrdersService) {}
 
   @Get()
   @RequirePermissions('work_orders:read')
-  async list(@CurrentUser() user: AuthenticatedUser, @Query('status') status?: WorkOrderStatus) {
-    return { success: true, data: await this.workOrdersService.list(user.tenantId, status) };
+  async list(
+    @CurrentUser() user: AuthenticatedUser,
+    @Query('status') status?: WorkOrderStatus,
+    @Query('priority') priority?: JobPriority,
+    @Query('search') search?: string,
+  ) {
+    return {
+      success: true,
+      data: await this.workOrdersService.list(user.tenantId, { status, priority, search }),
+    };
   }
 
   @Post()

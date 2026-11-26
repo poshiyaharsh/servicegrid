@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   CurrentUser,
@@ -16,8 +16,8 @@ import { AnalyticsService } from './analytics.service';
 @ApiBearerAuth()
 export class AnalyticsController {
   constructor(
-    private readonly analyticsService: AnalyticsService,
-    private readonly aiService: AiIntelligenceService,
+    @Inject(AnalyticsService) private readonly analyticsService: AnalyticsService,
+    @Inject(AiIntelligenceService) private readonly aiService: AiIntelligenceService,
   ) {}
 
   @Get('dashboard')

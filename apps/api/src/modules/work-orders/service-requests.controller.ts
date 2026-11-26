@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   CurrentUser,
@@ -15,7 +15,7 @@ import type { JobPriority } from './work-orders.store';
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth()
 export class ServiceRequestsController {
-  constructor(private readonly srService: ServiceRequestsService) {}
+  constructor(@Inject(ServiceRequestsService) private readonly srService: ServiceRequestsService) {}
 
   @Get('categories')
   @RequirePermissions('work_orders:read')
@@ -34,8 +34,16 @@ export class ServiceRequestsController {
 
   @Get()
   @RequirePermissions('work_orders:read')
-  async list(@CurrentUser() user: AuthenticatedUser, @Query('status') status?: string) {
-    return { success: true, data: await this.srService.listRequests(user.tenantId, status) };
+  async list(
+    @CurrentUser() user: AuthenticatedUser,
+    @Query('status') status?: string,
+    @Query('priority') priority?: JobPriority,
+    @Query('search') search?: string,
+  ) {
+    return {
+      success: true,
+      data: await this.srService.listRequests(user.tenantId, { status, priority, search }),
+    };
   }
 
   @Post()

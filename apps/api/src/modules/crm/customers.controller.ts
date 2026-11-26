@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Header,
+  Inject,
   Param,
   Patch,
   Post,
@@ -26,7 +27,7 @@ import { CustomersService } from './customers.service';
 @UseGuards(JwtAuthGuard, PermissionsGuard)
 @ApiBearerAuth()
 export class CustomersController {
-  constructor(private readonly customersService: CustomersService) {}
+  constructor(@Inject(CustomersService) private readonly customersService: CustomersService) {}
 
   @Get()
   @RequirePermissions('customers:read')

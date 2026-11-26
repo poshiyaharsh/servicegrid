@@ -197,6 +197,20 @@ export class AuthService {
     return { reset: true };
   }
 
+  async getProfile(tenantId: string, userId: string) {
+    const [user, tenant] = await Promise.all([
+      this.store.findUserById(tenantId, userId),
+      this.store.findTenantById(tenantId),
+    ]);
+    if (!user || !tenant) {
+      throw new UnauthorizedException('User session is no longer valid');
+    }
+    return {
+      user: this.sanitizeUser(user),
+      tenant,
+    };
+  }
+
   private async issueSessionTokens(user: UserRecord, userAgent?: string, ipAddress?: string) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
     const tempRefresh = generateOpaqueToken(24);

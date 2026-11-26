@@ -13,8 +13,23 @@ import {
 export class WorkOrdersService {
   constructor(@Inject(WORK_ORDERS_STORE) private readonly store: WorkOrdersStore) {}
 
-  async list(tenantId: string, status?: WorkOrderStatus) {
-    return this.store.listWorkOrders(tenantId, status);
+  async list(
+    tenantId: string,
+    filter?: WorkOrderStatus | { status?: WorkOrderStatus; priority?: JobPriority; search?: string },
+  ) {
+    const status = typeof filter === 'string' ? filter : filter?.status;
+    const priority = typeof filter === 'string' ? undefined : filter?.priority;
+    const search = typeof filter === 'string' ? undefined : filter?.search?.trim().toLowerCase();
+
+    const items = await this.store.listWorkOrders(tenantId, status);
+    return items.filter((item) => {
+      if (priority && item.priority !== priority) return false;
+      if (search) {
+        const haystack = `${item.jobNumber} ${item.title} ${item.description ?? ''}`.toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
+      return true;
+    });
   }
 
   async create(

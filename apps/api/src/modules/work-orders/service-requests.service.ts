@@ -29,8 +29,23 @@ export class ServiceRequestsService {
     });
   }
 
-  async listRequests(tenantId: string, status?: string) {
-    return this.store.listServiceRequests(tenantId, status);
+  async listRequests(
+    tenantId: string,
+    filter?: string | { status?: string; priority?: JobPriority; search?: string },
+  ) {
+    const status = typeof filter === 'string' ? filter : filter?.status;
+    const priority = typeof filter === 'string' ? undefined : filter?.priority;
+    const search = typeof filter === 'string' ? undefined : filter?.search?.trim().toLowerCase();
+
+    const items = await this.store.listServiceRequests(tenantId, status);
+    return items.filter((item) => {
+      if (priority && item.priority !== priority) return false;
+      if (search) {
+        const haystack = `${item.id} ${item.title} ${item.description}`.toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
+      return true;
+    });
   }
 
   async createRequest(
