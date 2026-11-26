@@ -1,8 +1,8 @@
 # Development Status — ServiceGrid
 
 **Last Updated:** 2026-11-26  
-**Current Phase:** Phase 03 — Architecture and Infrastructure (Completed)  
-**Next Phase:** Phase 04 — Authentication and Multi-Tenancy (Awaiting approval to proceed)
+**Current Phase:** Phase 04 — Authentication and Multi-Tenancy (Completed)  
+**Next Phase:** Phase 05 — CRM and Customer Management (Awaiting approval to proceed)
 
 ---
 
@@ -25,7 +25,7 @@
 | **01** | Research and Product Discovery | **Completed** | `COMPETITOR_ANALYSIS.md`, `CUSTOMER_PERSONAS.md`, `PRODUCT_REQUIREMENTS.md`, `PRODUCT_POSITIONING.md`, `MVP_SCOPE.md` |
 | **02** | Brand Identity and Design System | **Completed** | Brand naming (`FieldSutra`), 7 SVG logos, design tokens, UI primitives, 5 loader variants |
 | **03** | Architecture and Infrastructure | **Completed** | `pnpm` monorepo, Docker Compose, PostgreSQL + Prisma baseline, Redis, NestJS API + OpenAPI, 4 BullMQ workers, CI |
-| **04** | Authentication and Multi-Tenancy | Pending | Auth, RBAC, tenant isolation, PostgreSQL RLS |
+| **04** | Authentication and Multi-Tenancy | **Completed** | Auth, sessions, invitations, branches, users, 9-role RBAC, PostgreSQL RLS, cross-tenant tests |
 | **05** | CRM and Customer Management | Pending | Customers, contacts, addresses, leads, assets, timeline |
 | **06** | Service Requests and Work Orders | Pending | Requests, work orders, checklists, photos, SLA, state machine |
 | **07** | Technician Mobile Application | Pending | React Native Android-first app, SQLite offline-first sync |

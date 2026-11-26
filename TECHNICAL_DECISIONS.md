@@ -45,3 +45,9 @@ This document records key architectural, security, and product engineering decis
 - **Date:** 2026-11-26
 - **Decision:** Build `@servicegrid/ui` to `dist/` with TypeScript declaration files (`.d.ts`) rather than exporting raw `.tsx` source directly across pnpm workspace symlinks.
 - **Rationale:** Prevents cross-package `@types/react` resolution conflicts in strict `pnpm` monorepos when `apps/web` (React 19 / Next.js) and `apps/mobile` (React 18 / React Native) coexist.
+
+
+## TD-009: Scrypt Password Hashing, HMAC-SHA256 JWT & RLS Context Helper
+- **Date:** 2026-11-26
+- **Decision:** Use Node.js built-in `crypto.scrypt` with `crypto.timingSafeEqual` for passwords, HMAC-SHA256 JWTs for access/refresh tokens, SHA-256 hashes for persisted refresh/reset/verification/invitation tokens, and `withTenantTransaction` (`SELECT set_config('app.current_tenant_id', $1, true)`) to enforce PostgreSQL Row-Level Security (RLS).
+- **Rationale:** Avoids native C++ addon build fragility on Windows while maintaining strong cryptographic standards and defense-in-depth tenant isolation across both NestJS guards (`JwtAuthGuard`) and PostgreSQL RLS policies.
