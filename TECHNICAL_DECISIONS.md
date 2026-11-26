@@ -39,3 +39,9 @@ This document records key architectural, security, and product engineering decis
 - **Date:** 2026-11-26
 - **Decision:** Adopt **FieldSutra** as the commercial product brand while keeping `servicegrid` / `@servicegrid/*` as the internal monorepo and package namespace.
 - **Rationale:** Evaluated 22 candidates across 9 criteria (`docs/brand/BRAND_NAME_RESEARCH.md`). FieldSutra scored highest (44/45), carries strong India + global resonance, and had no active competing FSM SaaS found in preliminary web screening. Formal domain/trademark registration checks remain required prior to public launch.
+
+
+## TD-008: Compiled UI Package Boundary (`@servicegrid/ui`)
+- **Date:** 2026-11-26
+- **Decision:** Build `@servicegrid/ui` to `dist/` with TypeScript declaration files (`.d.ts`) rather than exporting raw `.tsx` source directly across pnpm workspace symlinks.
+- **Rationale:** Prevents cross-package `@types/react` resolution conflicts in strict `pnpm` monorepos when `apps/web` (React 19 / Next.js) and `apps/mobile` (React 18 / React Native) coexist.
